@@ -1,9 +1,67 @@
-import example.pepita
+import example.*
 
-describe "group of tests for pepita" {
-
-  test "pepita has initial energy" {
-    assert.equals(100, pepita.energy())
+describe "Primera parte" {
+  test "Que roberto (90kg) puede llevar un paquete que está pago en un camión que tiene un acoplado" {
+    roberto.setPesoPropio(90)
+    roberto.setVehiculo(camion)
+    roberto.setAcopladosDelCamion(1)
+    roberto.setPaquete(paquete)
+    roberto.pagarPaquete(100)
+    assert.that(puenteBrooklyn.dejaPasar(roberto))
   }
+
+
+  test "Que neo con crédito no puede llevar un paquete que no está pago a la matrix." {
+    neo.setPaquete(paquete)
+    neo.pagarPaquete(0)
+    neo.setCredito(true)
+    assert.notThat(matrix.dejaPasar(neo))
+  }
+}
+
+
+
+describe "Segunda parte del ejercicio" {
+  test "Contratar a un mensajero" {
+    empresa.contratarMensajero(neo)
+    assert.equals(empresa.nomina(), [neo])
+  }
+
+  test "Despedir un mensajero" {
+    empresa.contratarMensajero(neo)
+    empresa.contratarMensajero(roberto)
+    empresa.despedirMensajero(roberto)
+    assert.equals(empresa.nomina(), [neo])
+  }
+
+  test "Saber el peso del último mensajero de la empresa."{
+    roberto.setPesoPropio(90)
+    empresa.contratarMensajero(neo)
+    empresa.contratarMensajero(roberto)
+    roberto.setVehiculo(bicicleta)
+    assert.equals(empresa.pesoDelUltimoEmpleado(), 95)
+  }
+
+
+}
+
+describe "Tercera parte" {
+  test "Averiguar si un paquete puede ser entregado por la empresa de mensajería, es decir, si al menos uno de sus mensajeros puede entregar el paquete." {
+    empresa.contratarMensajero(neo)
+    empresa.contratarMensajero(roberto)
+    empresa.contratarMensajero(chuck)
+    assert.equals(1, empresa.nomina().count({mensajero => 
+    mensajero.setPaquete(paquete)
+    mensajero.pagarPaquete(100)
+    paquete.puedeSerEntregado(mensajero, matrix)
+  }).min(1))
+  }
+
+test "Saber si una mensajería tiene sobrepeso. Esto sucede si el promedio del peso de los mensajeros es superior a 500 Kg." {
+    empresa.contratarMensajero(neo)
+    empresa.contratarMensajero(roberto)
+    empresa.contratarMensajero(chuck)
+    
+}
 
 }
